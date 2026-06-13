@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayan Ahmad — Strategy & Business Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #0D0F14;
+    --slate:   #1A1E2A;
+    --mid:     #2E3347;
+    --muted:   #6B7280;
+    --soft:    #9CA3AF;
+    --line:    #2A2F3F;
+    --page:    #F8F7F4;
+    --warm:    #FFFDF8;
+    --accent:  #2563EB;
+    --accent2: #1D4ED8;
+    --gold:    #D97706;
+    --teal:    #0891B2;
+    --green:   #059669;
+    --white:   #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--page); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(248,247,244,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 58px;
+  }
+  .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.05rem; color:var(--ink); letter-spacing:-0.02em; }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { font-size:0.8rem; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; background: var(--ink);
+    display: grid; place-items: center;
+    padding: 8rem 5% 6rem; position: relative; overflow: hidden;
+  }
+  .hero-grid-bg {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(37,99,235,0.045) 1px,transparent 1px), linear-gradient(90deg,rgba(37,99,235,0.045) 1px,transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow { position:absolute; top:-20%; right:-10%; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(37,99,235,0.13) 0%,transparent 70%); pointer-events:none; }
+  .hero-inner { max-width:900px; position:relative; z-index:1; }
+  .hero-eyebrow {
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; font-weight:500; letter-spacing:0.14em;
+    color:var(--accent); text-transform:uppercase; margin-bottom:1.5rem;
+    display:flex; align-items:center; gap:0.75rem;
+  }
+  .hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--accent); }
+  h1 { font-family:'Syne',sans-serif; font-size:clamp(2.8rem,7vw,5.5rem); font-weight:800; line-height:1.0; color:var(--white); letter-spacing:-0.03em; margin-bottom:0.4rem; }
+  .hero-sub { font-family:'Syne',sans-serif; font-size:clamp(1rem,2.2vw,1.3rem); font-weight:600; color:rgba(255,255,255,0.32); letter-spacing:0.02em; margin-bottom:2rem; }
+  .hero-tagline { font-size:1.05rem; font-weight:300; color:rgba(255,255,255,0.65); max-width:620px; line-height:1.75; margin-bottom:2rem; border-left:2px solid var(--accent); padding-left:1.2rem; }
+  .hero-quote { font-size:0.88rem; color:rgba(255,255,255,0.35); font-style:italic; margin-bottom:2.5rem; max-width:540px; }
+  .hero-pills { display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:2.5rem; }
+  .pill { font-size:0.75rem; font-weight:500; padding:0.35rem 0.9rem; border-radius:50px; background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.55); border:1px solid rgba(255,255,255,0.1); }
+  .hero-ctas { display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:3rem; }
+  .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.7rem 1.6rem; border-radius:6px; font-size:0.85rem; font-weight:600; text-decoration:none; transition:all 0.2s; cursor:pointer; }
+  .btn-primary { background:var(--accent); color:var(--white); border:1px solid var(--accent); }
+  .btn-primary:hover { background:var(--accent2); }
+  .btn-outline { background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.2); }
+  .btn-outline:hover { background:rgba(255,255,255,0.07); color:var(--white); }
+  .hero-contacts { display:flex; flex-wrap:wrap; gap:1.5rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.08); }
+  .hero-contacts a { font-size:0.82rem; color:rgba(255,255,255,0.42); text-decoration:none; display:flex; align-items:center; gap:0.45rem; transition:color 0.2s; }
+  .hero-contacts a:hover { color:var(--accent); }
+
+  /* SECTIONS */
+  section { padding:6rem 5%; }
+  .section-label { font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.6rem; }
+  .section-label::before { content:''; display:block; width:20px; height:1px; background:var(--accent); }
+  h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; letter-spacing:-0.025em; color:var(--ink); line-height:1.1; margin-bottom:0.5rem; }
+  .section-sub { font-size:1rem; color:var(--muted); max-width:580px; margin-bottom:3rem; }
+  .max-w { max-width:1100px; margin:0 auto; }
+
+  /* ABOUT */
+  #about { background:var(--white); }
+  .about-grid { display:grid; grid-template-columns:1fr 1.6fr; gap:4rem; align-items:start; }
+  .about-left h3 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:1rem; color:var(--ink); }
+  .about-left p, .about-right p { font-size:0.92rem; color:var(--muted); line-height:1.85; margin-bottom:1.2rem; }
+  .brand-statement { background:var(--ink); color:var(--white); padding:1.5rem; border-radius:10px; margin-top:1.5rem; font-size:0.9rem; font-style:italic; line-height:1.7; border-left:3px solid var(--accent); }
+  .brand-statement strong { display:block; font-style:normal; font-size:0.72rem; font-family:'JetBrains Mono',monospace; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem; }
+
+  /* IMPACT */
+  #impact { background:var(--ink); }
+  #impact h2 { color:var(--white); }
+  .impact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; background:var(--line); border-radius:12px; overflow:hidden; margin-top:2.5rem; }
+  .impact-item { background:var(--slate); padding:1.8rem 2rem; display:flex; align-items:flex-start; gap:1rem; transition:background 0.2s; }
+  .impact-item:hover { background:var(--mid); }
+  .impact-icon { font-size:1.3rem; line-height:1; flex-shrink:0; margin-top:0.1rem; }
+  .impact-text { font-size:0.87rem; color:rgba(255,255,255,0.6); line-height:1.65; }
+
+  /* DIFFERENT */
+  #different { background:var(--page); }
+  .diff-card { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:12px; padding:2rem 2.5rem; }
+  .diff-card h3 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; margin-bottom:1rem; color:var(--ink); }
+  .diff-card p { font-size:0.92rem; color:var(--muted); line-height:1.8; margin-bottom:0.8rem; }
+  .diff-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:2rem; }
+  .diff-col h4 { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--ink); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--accent); }
+  .diff-col ul { list-style:none; }
+  .diff-col ul li { font-size:0.87rem; color:var(--muted); padding:0.4rem 0; display:flex; align-items:center; gap:0.6rem; border-bottom:1px solid rgba(0,0,0,0.05); }
+  .diff-col ul li::before { content:'✓'; color:var(--accent); font-weight:700; flex-shrink:0; }
+
+  /* EDUCATION */
+  #education { background:var(--white); }
+  .edu-timeline { position:relative; padding-left:2rem; }
+  .edu-timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,var(--accent),var(--teal)); }
+  .edu-item { position:relative; margin-bottom:2.5rem; padding:2rem 2rem 2rem 2.5rem; background:var(--warm); border:1px solid rgba(0,0,0,0.06); border-radius:12px; margin-left:1.5rem; }
+  .edu-item::before { content:''; position:absolute; left:-2.5rem; top:2rem; width:12px; height:12px; border-radius:50%; background:var(--accent); border:2px solid var(--white); box-shadow:0 0 0 3px var(--accent); }
+  .edu-year { font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--accent); font-weight:500; letter-spacing:0.08em; margin-bottom:0.4rem; }
+  .edu-item h3 { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:var(--ink); margin-bottom:0.2rem; }
+  .edu-item .inst { font-size:0.85rem; color:var(--muted); margin-bottom:1rem; }
+  .edu-item p { font-size:0.88rem; color:var(--muted); line-height:1.75; margin-bottom:0.8rem; }
+  .tag-row { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .tag { font-size:0.73rem; font-weight:500; padding:0.25rem 0.75rem; border-radius:4px; background:rgba(37,99,235,0.07); color:var(--accent); border:1px solid rgba(37,99,235,0.15); }
+  .tag-green { background:rgba(5,150,105,0.07); color:var(--green); border-color:rgba(5,150,105,0.15); }
+  .tag-gold { background:rgba(217,119,6,0.07); color:var(--gold); border-color:rgba(217,119,6,0.2); }
+  .tag-teal { background:rgba(8,145,178,0.07); color:var(--teal); border-color:rgba(8,145,178,0.15); }
+
+  /* EXPERIENCE */
+  #experience { background:var(--page); }
+  .exp-card { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:12px; padding:2.5rem; margin-bottom:2rem; position:relative; overflow:hidden; }
+  .exp-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
+  .exp-card.c-accent::before { background:var(--accent); }
+  .exp-card.c-teal::before { background:var(--teal); }
+  .exp-card.c-gold::before { background:var(--gold); }
+  .exp-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:0.3rem; }
+  .exp-header h3 { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:var(--ink); }
+  .exp-date { font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--muted); letter-spacing:0.06em; background:rgba(0,0,0,0.04); padding:0.25rem 0.75rem; border-radius:4px; white-space:nowrap; }
+  .exp-company { font-size:0.85rem; color:var(--accent); font-weight:600; margin-bottom:1rem; }
+  .exp-card p { font-size:0.88rem; color:var(--muted); line-height:1.78; margin-bottom:1rem; }
+  .exp-points { list-style:none; margin-bottom:1.2rem; }
+  .exp-points li { font-size:0.87rem; color:var(--muted); padding:0.32rem 0; display:flex; align-items:flex-start; gap:0.7rem; line-height:1.6; }
+  .exp-points li::before { content:'→'; color:var(--accent); flex-shrink:0; margin-top:0.05rem; }
+  .exp-lesson { background:rgba(37,99,235,0.04); border:1px solid rgba(37,99,235,0.1); border-radius:8px; padding:1rem 1.2rem; margin-top:1rem; }
+  .exp-lesson .lesson-label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:0.4rem; }
+  .exp-lesson p { font-size:0.85rem; color:var(--muted); margin:0; line-height:1.65; }
+
+  /* WHY HIRE ME */
+  #why { background:var(--ink); }
+  #why h2 { color:var(--white); }
+  .why-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2.5rem; }
+  .why-card { background:var(--slate); border:1px solid var(--line); border-radius:12px; padding:2rem; transition:border-color 0.2s; }
+  .why-card:hover { border-color:var(--accent); }
+  .why-card .icon { font-size:1.7rem; margin-bottom:1rem; }
+  .why-card h4 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--white); margin-bottom:0.6rem; }
+  .why-card p { font-size:0.84rem; color:rgba(255,255,255,0.48); line-height:1.72; }
+
+  /* SKILLS */
+  #skills { background:var(--white); }
+  .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.5rem; }
+  .skill-cluster { border:1px solid rgba(0,0,0,0.07); border-radius:12px; padding:1.8rem; background:var(--warm); }
+  .skill-cluster h4 { font-family:'Syne',sans-serif; font-size:0.88rem; font-weight:700; color:var(--ink); margin-bottom:1.2rem; display:flex; align-items:center; gap:0.6rem; }
+  .skill-cluster h4 .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .skill-list { display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .sk { font-size:0.74rem; font-weight:500; padding:0.25rem 0.65rem; border-radius:4px; color:var(--muted); background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.07); }
+
+  /* TOOLS */
+  #tools { background:var(--page); }
+  .tools-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.2rem; margin-top:2rem; }
+  .tool-cluster { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:10px; padding:1.5rem; }
+  .tool-cluster h4 { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:700; color:var(--ink); margin-bottom:0.8rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(0,0,0,0.07); }
+  .tool-cluster ul { list-style:none; }
+  .tool-cluster ul li { font-size:0.82rem; color:var(--muted); padding:0.28rem 0; display:flex; align-items:center; gap:0.5rem; }
+  .tool-cluster ul li::before { content:'·'; color:var(--accent); font-size:1.2rem; line-height:1; }
+
+  /* CERTS */
+  #certs { background:var(--white); }
+  .cert-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.2rem; margin-top:2rem; }
+  .cert-card { background:var(--warm); border:1px solid rgba(0,0,0,0.07); border-radius:10px; padding:1.5rem; }
+  .cert-card h4 { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--ink); margin-bottom:0.3rem; }
+  .cert-card .cert-provider { font-size:0.78rem; color:var(--accent); font-weight:500; margin-bottom:0.5rem; }
+  .cert-card .cert-date { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--soft); letter-spacing:0.06em; }
+
+  /* PROJECTS */
+  #projects { background:var(--page); }
+  .project-card { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:14px; padding:2.5rem; margin-bottom:2rem; }
+  .project-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem; }
+  .project-header h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:700; color:var(--ink); }
+  .project-org { font-size:0.75rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; padding:0.3rem 0.8rem; border-radius:4px; }
+  .p-label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.4rem; margin-top:1.2rem; }
+  .project-card p { font-size:0.87rem; color:var(--muted); line-height:1.8; margin-bottom:0.5rem; }
+  .project-card ul { list-style:none; margin-bottom:0.5rem; }
+  .project-card ul li { font-size:0.86rem; color:var(--muted); padding:0.3rem 0; display:flex; align-items:flex-start; gap:0.6rem; line-height:1.6; }
+  .project-card ul li::before { content:'·'; color:var(--accent); font-weight:700; flex-shrink:0; font-size:1.1rem; }
+  .project-meta { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(0,0,0,0.06); }
+  .project-meta .label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.4rem; }
+  .project-meta p { font-size:0.83rem; color:var(--muted); line-height:1.6; margin:0; }
+
+  /* APPROACH */
+  #approach { background:var(--white); }
+  .approach-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:0; margin-top:2.5rem; }
+  .approach-step { text-align:center; padding:2rem 1.2rem; position:relative; }
+  .approach-step:not(:last-child)::after { content:'→'; position:absolute; right:-8px; top:50%; transform:translateY(-50%); color:var(--soft); font-size:1.1rem; z-index:1; }
+  .step-num { font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800; color:rgba(37,99,235,0.1); line-height:1; margin-bottom:0.8rem; }
+  .step-title { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--ink); margin-bottom:0.5rem; }
+  .step-desc { font-size:0.78rem; color:var(--muted); line-height:1.6; }
+
+  /* STRENGTHS */
+  #strengths { background:var(--page); }
+  .strength-table { width:100%; border-collapse:collapse; margin-top:2rem; background:var(--white); border-radius:12px; overflow:hidden; border:1px solid rgba(0,0,0,0.07); }
+  .strength-table th { font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:1rem 1.5rem; text-align:left; background:rgba(0,0,0,0.03); border-bottom:1px solid rgba(0,0,0,0.07); }
+  .strength-table td { padding:1rem 1.5rem; font-size:0.88rem; color:var(--muted); border-bottom:1px solid rgba(0,0,0,0.05); line-height:1.6; }
+  .strength-table tr:last-child td { border-bottom:none; }
+  .strength-table td:first-child { font-weight:600; color:var(--ink); width:220px; }
+  .strength-table tr:hover td { background:rgba(37,99,235,0.025); }
+
+  /* VALUES */
+  #values { background:var(--ink); }
+  #values h2 { color:var(--white); }
+  .values-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-top:2.5rem; }
+  .value-card { background:var(--slate); border:1px solid var(--line); border-radius:10px; padding:1.5rem; }
+  .value-card .v-icon { font-size:1.3rem; margin-bottom:0.7rem; }
+  .value-card h4 { font-family:'Syne',sans-serif; font-size:0.92rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+  .value-card p { font-size:0.8rem; color:rgba(255,255,255,0.42); line-height:1.65; }
+  .appreciate-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:0.7rem; margin-top:2rem; }
+  .appreciate-item { display:flex; align-items:center; gap:0.75rem; background:var(--slate); border:1px solid var(--line); padding:1rem 1.2rem; border-radius:8px; font-size:0.84rem; color:rgba(255,255,255,0.58); }
+  .appreciate-item::before { content:'✔'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* WHAT MAKES ME DIFFERENT */
+  #memorable { background:var(--white); }
+  .memorable-inner { background:linear-gradient(135deg,var(--ink),var(--slate)); border-radius:16px; padding:3rem 3.5rem; color:var(--white); position:relative; overflow:hidden; }
+  .memorable-inner::after { content:''; position:absolute; right:-60px; top:-60px; width:280px; height:280px; border-radius:50%; background:rgba(37,99,235,0.1); pointer-events:none; }
+  .memorable-inner h3 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; color:var(--white); margin-bottom:1rem; }
+  .memorable-inner p { font-size:0.92rem; color:rgba(255,255,255,0.6); line-height:1.85; margin-bottom:1rem; }
+
+  /* FOCUS */
+  #focus { background:var(--page); }
+  .focus-grid { display:flex; flex-wrap:wrap; gap:0.7rem; margin-top:2rem; }
+  .focus-tag { font-size:0.82rem; font-weight:600; padding:0.5rem 1.1rem; border-radius:50px; background:var(--white); border:1.5px solid var(--accent); color:var(--accent); }
+
+  /* VISION */
+  #vision { background:var(--white); }
+  .vision-inner { background:linear-gradient(135deg,var(--ink) 0%,var(--slate) 100%); border-radius:16px; padding:3.5rem; color:var(--white); position:relative; overflow:hidden; }
+  .vision-inner::after { content:''; position:absolute; right:-50px; top:-50px; width:300px; height:300px; border-radius:50%; background:rgba(37,99,235,0.1); pointer-events:none; }
+  .vision-inner h3 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; color:var(--white); margin-bottom:1.2rem; }
+  .vision-inner p { font-size:0.92rem; color:rgba(255,255,255,0.62); line-height:1.8; margin-bottom:1.5rem; }
+  .vision-tags { display:flex; flex-wrap:wrap; gap:0.6rem; }
+  .vision-tag { font-size:0.78rem; font-weight:500; padding:0.35rem 0.9rem; background:rgba(37,99,235,0.22); border:1px solid rgba(37,99,235,0.4); color:rgba(255,255,255,0.8); border-radius:4px; }
+
+  /* BEYOND */
+  #beyond { background:var(--page); }
+  .beyond-card { max-width:720px; background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:12px; padding:2.5rem; }
+  .beyond-card p { font-size:0.92rem; color:var(--muted); line-height:1.85; margin-bottom:1rem; }
+
+  /* CONTACT */
+  #contact { background:var(--ink); text-align:center; padding:6rem 5%; }
+  #contact h2 { color:var(--white); margin-bottom:0.5rem; }
+  .contact-sub { font-size:1rem; color:rgba(255,255,255,0.42); margin-bottom:3rem; max-width:560px; margin-left:auto; margin-right:auto; line-height:1.7; }
+  .topics { display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin-bottom:3rem; }
+  .topic { font-size:0.8rem; font-weight:500; padding:0.4rem 1rem; border-radius:50px; background:rgba(37,99,235,0.15); border:1px solid rgba(37,99,235,0.3); color:rgba(255,255,255,0.68); }
+  .contact-links { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-bottom:3rem; }
+  .contact-links a { display:flex; align-items:center; gap:0.5rem; background:var(--slate); border:1px solid var(--line); color:rgba(255,255,255,0.68); text-decoration:none; padding:0.75rem 1.5rem; border-radius:8px; font-size:0.85rem; font-weight:500; transition:all 0.2s; }
+  .contact-links a:hover { background:var(--mid); border-color:var(--accent); color:var(--white); }
+  .footer-note { font-size:0.75rem; color:rgba(255,255,255,0.18); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.55s ease,transform 0.55s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @media(max-width:900px){
+    .about-grid,.diff-grid,.project-meta{grid-template-columns:1fr;}
+    .approach-steps{grid-template-columns:1fr 1fr;}
+    .approach-step:not(:last-child)::after{display:none;}
+    nav .nav-links{display:none;}
+  }
+  @media(max-width:600px){
+    section{padding:4rem 4%;}
+    .approach-steps{grid-template-columns:1fr;}
+    .memorable-inner{padding:2rem;}
+    .vision-inner{padding:2rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ayan Ahmad</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Strategy · Market Intelligence · Business Analytics</div>
+    <h1>Ayan Ahmad</h1>
+    <div class="hero-sub">Strategy · Market Intelligence · Business Analytics</div>
+    <p class="hero-tagline">Transforming market insights, business research, and data analytics into strategic decisions that drive measurable business impact.</p>
+    <p class="hero-quote">"I don't just analyze data — I uncover opportunities, evaluate risks, and help organizations make better business decisions."</p>
+    <div class="hero-pills">
+      <span class="pill">MBA Candidate · AMU</span>
+      <span class="pill">Former Strategy Intern · STL</span>
+      <span class="pill">Mechanical Engineer</span>
+      <span class="pill">Research-Driven Problem Solver</span>
+      <span class="pill">📍 New Delhi, India</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/ayan-ahmad-aa4712236" target="_blank">View LinkedIn →</a>
+      <a class="btn btn-outline" href="#contact">Let's Connect</a>
+    </div>
+    <div class="hero-contacts">
+      <a href="mailto:ayanahmad135@gmail.com">✉ ayanahmad135@gmail.com</a>
+      <a href="tel:+919717449873">📞 +91-9717449873</a>
+      <a href="https://wa.me/919717449873" target="_blank">💬 WhatsApp</a>
+      <a href="https://www.linkedin.com/in/ayan-ahmad-aa4712236" target="_blank">🔗 LinkedIn</a>
+      <a href="https://github.com/ayanahmad01" target="_blank">⌥ GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="max-w">
+    <div class="section-label">About</div>
+    <h2>Strategy-driven.<br>Data-informed.<br>Relationship-focused.</h2>
+    <div class="about-grid reveal">
+      <div class="about-left">
+        <h3>Who I Am</h3>
+        <p>I am a Strategy and Business Analytics professional with a foundation in Mechanical Engineering and advanced business education through an MBA. My experience spans corporate strategy, market intelligence, competitive benchmarking, commercial analysis, and data-driven decision-making.</p>
+        <p>What differentiates me is my ability to bridge research, analytics, and execution — I view data not as numbers on a spreadsheet, but as a tool for uncovering business opportunities, identifying risks, and enabling better strategic decisions.</p>
+        <div class="brand-statement">
+          <strong>Personal Brand Statement</strong>
+          Helping organizations make smarter business decisions through research, analytics, and strategic thinking.
+        </div>
+      </div>
+      <div class="about-right">
+        <p>At Sterlite Technologies (STL), I contributed to the Strategy Department's research on the rapidly evolving data center ecosystem across India and the Middle East — mapping 50+ market participants, evaluating hyperscaler strategies, and surfacing M&A and partnership opportunities to support STL's growth evaluations.</p>
+        <p>Before that, at AzLish Technologies, I gained hands-on B2B commercial exposure across Sales & Marketing and Project Management — managing client relationships, coordinating cross-functional teams, and translating operational data into business insights.</p>
+        <p>I am particularly passionate about market research, competitive intelligence, growth strategy, and data-driven decision-making. I thrive in environments where curiosity, structured thinking, and collaboration are valued.</p>
+        <p>I believe sustainable success comes from creating value for everyone involved — I actively learn, share knowledge, connect people with opportunities, and contribute wherever I can create impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT SNAPSHOT -->
+<section id="impact">
+  <div class="max-w">
+    <div class="section-label" style="color:var(--gold)"><span style="width:20px;height:1px;background:var(--gold);display:inline-block;flex-shrink:0"></span>Impact Snapshot</div>
+    <h2 style="color:var(--white)">What I've Done</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.38)">Key contributions and capabilities — at a glance.</p>
+    <div class="impact-grid reveal">
+      <div class="impact-item reveal visible"><div class="impact-icon">📊</div><div class="impact-text">Researched 50+ market participants across India and Middle East data center ecosystems for STL's Strategy Department</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">📈</div><div class="impact-text">Evaluated competitive strategies and market positioning of 3 leading hyperscalers — AWS, Microsoft Azure, and Google Cloud</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">🎯</div><div class="impact-text">Assessed partnership structures and M&A opportunities to support STL's strategic growth evaluations</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">📋</div><div class="impact-text">Synthesized large volumes of industry data into executive-ready strategic research reports for senior leadership</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">🤝</div><div class="impact-text">Managed B2B client interactions, techno-commercial discussions, and stakeholder coordination across industrial sectors</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">📉</div><div class="impact-text">Analyzed sales pipelines, CRM datasets, and MIS reports to generate business development insights</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">📦</div><div class="impact-text">Coordinated cross-functional teams across design, procurement, production, and project execution</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">🛠️</div><div class="impact-text">Actively upskilling in Business Analytics, SQL, Power BI, and Strategic Frameworks via structured certification programs</div></div>
+      <div class="impact-item reveal visible"><div class="impact-icon">🚀</div><div class="impact-text">Built experience across Strategy, Market Intelligence, Sales, Project Management, and Business Analytics - developing a holistic understanding of how organizations grow and operate</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DIFFERENT -->
+<section id="different">
+  <div class="max-w">
+    <div class="section-label">Background</div>
+    <h2>Why My Background<br>Is Different</h2>
+    <p class="section-sub">Most professionals build expertise in either technical domains or business functions. My journey combines both.</p>
+    <div class="diff-card reveal">
+      <h3>Engineering + Business + Analytics</h3>
+      <p>Engineering taught me how to think logically and solve complex problems. Business education taught me how markets operate, how organizations grow, and how strategic decisions create value. This combination lets me approach challenges from both analytical and commercial perspectives — connecting data, strategy, and execution to drive meaningful outcomes.</p>
+      <p>This allows me to communicate effectively with technical teams, business stakeholders, and leadership alike — a combination that recruiters at strategy, analytics, and consulting firms actively look for.</p>
+      <div class="diff-grid">
+        <div class="diff-col">
+          <h4>Engineering Foundation</h4>
+          <ul>
+            <li>Structured, logical problem solving</li>
+            <li>Quantitative and systems-oriented thinking</li>
+            <li>Process optimization mindset</li>
+            <li>Data interpretation and analysis</li>
+            <li>Technical communication across teams</li>
+          </ul>
+        </div>
+        <div class="diff-col">
+          <h4>Business & Strategy Layer</h4>
+          <ul>
+            <li>Market intelligence and competitive analysis</li>
+            <li>Corporate strategy and commercial thinking</li>
+            <li>Business analytics and data visualization</li>
+            <li>Stakeholder management and communication</li>
+            <li>Cross-functional operational exposure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="max-w">
+    <div class="section-label">Education</div>
+    <h2>Academic Foundation</h2>
+    <p class="section-sub">Every degree was a deliberate step in building a complete strategy and analytics professional.</p>
+    <div class="edu-timeline reveal">
+      <div class="edu-item">
+        <div class="edu-year">Aug 2024 – Present</div>
+        <h3>Master of Business Administration (MBA)</h3>
+        <div class="inst">Aligarh Muslim University, Malappuram Centre · Specialization: Marketing &amp; Operations</div>
+        <p>Strengthening my understanding of business strategy, market dynamics, organizational decision-making, and analytical problem-solving. Through coursework, projects, and industry exposure, I am building practical knowledge across multiple business disciplines relevant to strategy, analytics, and commercial roles.</p>
+        <div class="tag-row" style="margin-bottom:1rem">
+          <span class="tag">Business Strategy</span><span class="tag">Market Research</span><span class="tag">Competitive Analysis</span>
+          <span class="tag">Business Analytics</span><span class="tag">Financial Decision-Making</span><span class="tag">Strategic Management</span>
+          <span class="tag">Consumer Behaviour</span><span class="tag">Quantitative Techniques</span>
+        </div>
+        <p style="font-size:0.83rem;font-weight:600;color:var(--ink);margin-bottom:0.5rem">Key Project:</p>
+        <div class="tag-row">
+          <span class="tag tag-gold">Strategic Market Analysis — Bisleri International (MBA Capstone)</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">Aug 2022 – Jul 2024</div>
+        <h3>Industry Experience</h3>
+        <div class="inst">AzLish Technologies Pvt. Ltd. · Sales, Operations &amp; Project Management</div>
+        <p>Applied structured thinking in project management, sales operations, B2B coordination, and stakeholder management — building a concrete bridge between technical education and business application.</p>
+        <div class="tag-row">
+          <span class="tag tag-green">Project Management</span><span class="tag tag-green">B2B Sales</span>
+          <span class="tag tag-green">MIS Reporting</span><span class="tag tag-green">Stakeholder Management</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">Aug 2018 – Jul 2022</div>
+        <h3>Bachelor of Technology — Mechanical Engineering</h3>
+        <div class="inst">Noida Institute of Engineering and Technology, Greater Noida</div>
+        <p>Built the foundation of my analytical and structured thinking approach. Beyond technical concepts, engineering taught me how to break down complex problems, analyze systems, make evidence-based decisions, and collaborate within multidisciplinary teams.</p>
+        <p>This engineering mindset continues to shape how I approach business problems — through structure, precision, and practical execution.</p>
+        <div class="tag-row">
+          <span class="tag">Problem Solving</span><span class="tag">Quantitative Thinking</span>
+          <span class="tag">Process Optimization</span><span class="tag">Systems Thinking</span>
+          <span class="tag">Data Interpretation</span><span class="tag">Technical Communication</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="max-w">
+    <div class="section-label">Experience</div>
+    <h2>Professional Journey</h2>
+    <p class="section-sub">Problems solved, business impact created, and capabilities built across three distinct roles.</p>
+
+    <div class="exp-card c-accent reveal">
+      <div class="exp-header">
+        <h3>Summer Intern — Strategy Department</h3>
+        <span class="exp-date">Jun 2025 – Aug 2025</span>
+      </div>
+      <div class="exp-company">Sterlite Technologies Limited (STL) · Gurugram, Haryana</div>
+      <p>Contributed to strategic research initiatives within STL's corporate strategy function, focused on the data center ecosystem across India and the Middle East. Worked alongside the strategy team to generate market intelligence supporting STL's potential positioning in the data center market.</p>
+      <ul class="exp-points">
+        <li>Conducted industry research and market intelligence studies on data center ecosystems across India and the Middle East, evaluating 50+ market participants, investment trends, and commercial opportunities</li>
+        <li>Performed competitor benchmarking and strategic analysis of global industry leaders to identify market positioning, growth strategies, and emerging trends</li>
+        <li>Evaluated strategies of AWS, GCP, and Microsoft Azure and assessed their implications for STL's strategic direction</li>
+        <li>Evaluated M&A opportunities, partnership structures, and investment strategies through commercial and market analysis</li>
+        <li>Built insights into key leadership and sourcing roles within the data center partnership ecosystem</li>
+        <li>Synthesized large volumes of industry data into executive-ready research reports for strategic decision-making</li>
+        <li>Assessed market risks, growth opportunities, and competitive dynamics through qualitative and quantitative research methodologies</li>
+      </ul>
+      <div class="tag-row" style="margin-bottom:1rem">
+        <span class="tag">Market Intelligence</span><span class="tag">Competitive Benchmarking</span>
+        <span class="tag">Strategic Research</span><span class="tag">Commercial Analysis</span><span class="tag">Executive Reporting</span>
+      </div>
+      <div class="exp-lesson">
+        <div class="lesson-label">What This Experience Taught Me</div>
+        <p>This role showed me how a corporate strategy team translates market signals into business decisions. I learned how to move from raw industry data to structured insights — and how to frame findings in a way that supports senior decision-making rather than simply reporting observations.</p>
+      </div>
+    </div>
+
+    <div class="exp-card c-teal reveal">
+      <div class="exp-header">
+        <h3>Engineer — Sales &amp; Marketing</h3>
+        <span class="exp-date">Aug 2023 – Mar 2024</span>
+      </div>
+      <div class="exp-company">AzLish Technologies Pvt. Ltd. · Noida, Uttar Pradesh</div>
+      <p>Gained hands-on B2B commercial exposure managing client relationships, supporting sales strategies, and coordinating project execution across industrial automation and conveyor system solutions.</p>
+      <ul class="exp-points">
+        <li>Assisted the sales team in handling B2B clients for industrial automation and conveyor system solutions</li>
+        <li>Coordinated with prospective clients to understand operational requirements and prepare solution-oriented proposals</li>
+        <li>Prepared sales quotations, presentations, product catalogs, and technical-commercial documents</li>
+        <li>Managed CRM datasets, analyzed customer inquiries and sales pipeline trends, and generated insights to support business development</li>
+        <li>Worked with engineering and project teams to support techno-commercial discussions with customers</li>
+        <li>Prepared monthly sales and MIS reports to track customer inquiries, project pipeline status, and vendor coordination</li>
+      </ul>
+      <div class="tag-row" style="margin-bottom:1rem">
+        <span class="tag tag-teal">B2B Sales</span><span class="tag tag-teal">CRM Management</span>
+        <span class="tag tag-teal">MIS Reporting</span><span class="tag tag-teal">Stakeholder Management</span><span class="tag tag-teal">Techno-Commercial Coordination</span>
+      </div>
+      <div class="exp-lesson">
+        <div class="lesson-label">What This Experience Taught Me</div>
+        <p>This role taught me how business decisions translate into customer requirements, commercial negotiations, and revenue generation. It gave me a ground-level view of how sales pipelines work, how CRM data reflects business health, and how cross-functional teams must align to close deals and deliver value.</p>
+      </div>
+    </div>
+
+    <div class="exp-card c-gold reveal">
+      <div class="exp-header">
+        <h3>Associate PMO</h3>
+        <span class="exp-date">Aug 2022 – Jul 2023</span>
+      </div>
+      <div class="exp-company">AzLish Technologies Pvt. Ltd. · Noida, Uttar Pradesh</div>
+      <p>Supported project management office functions across industrial automation and conveyor system projects, contributing to planning, tracking, and cross-functional coordination.</p>
+      <ul class="exp-points">
+        <li>Managed and analyzed Excel-based project datasets and MIS reports to track performance, identify risks, and monitor timelines</li>
+        <li>Coordinated with design, procurement, production, and installation teams to ensure smooth project execution</li>
+        <li>Monitored inventory requirements, material dispatch schedules, and vendor follow-ups for ongoing projects</li>
+        <li>Supported client communication regarding project milestones, installation timelines, and technical updates</li>
+        <li>Assisted in preparing project proposals, quotations, BOQs, and technical documentation</li>
+        <li>Maintained and validated project datasets related to costs, procurement, and installation activities for management reviews</li>
+      </ul>
+      <div class="tag-row" style="margin-bottom:1rem">
+        <span class="tag tag-gold">PMO</span><span class="tag tag-gold">Project Tracking</span>
+        <span class="tag tag-gold">Risk Management</span><span class="tag tag-gold">Cross-functional Coordination</span><span class="tag tag-gold">Data Validation</span>
+      </div>
+      <div class="exp-lesson">
+        <div class="lesson-label">What This Experience Taught Me</div>
+        <p>This role strengthened my ability to manage cross-functional stakeholders, track execution across moving parts, and solve operational bottlenecks under pressure. It gave me a practical understanding of how project decisions cascade into costs, timelines, and customer satisfaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HIRE ME -->
+<section id="why">
+  <div class="max-w">
+    <div class="section-label" style="color:rgba(255,255,255,0.35)"><span style="width:20px;height:1px;background:rgba(255,255,255,0.18);display:inline-block;flex-shrink:0"></span>Why Hire Me</div>
+    <h2>What I Bring to<br>Your Organization</h2>
+    <div class="why-grid reveal">
+      <div class="why-card"><div class="icon">🔭</div><h4>Strategic Thinker with Analytical Depth</h4><p>I combine market intelligence, business research, and data analytics to identify opportunities, assess risks, and support strategic decisions — not just surface-level observations.</p></div>
+      <div class="why-card"><div class="icon">⚡</div><h4>Information into Action</h4><p>Whether analyzing a market, evaluating competitors, or interpreting data — I focus on generating insights that lead to practical business outcomes.</p></div>
+      <div class="why-card"><div class="icon">🔩</div><h4>Technical + Business Foundation</h4><p>Engineering discipline. MBA business understanding. Data analytics capability. This combination lets me communicate effectively across technical, commercial, and leadership contexts.</p></div>
+      <div class="why-card"><div class="icon">🗺️</div><h4>Cross-Functional Exposure</h4><p>Experience spanning Corporate Strategy, Market Intelligence, Sales & Marketing, and Project Management — enabling me to understand business challenges from multiple perspectives.</p></div>
+      <div class="why-card"><div class="icon">🤝</div><h4>Relationship Builder</h4><p>I naturally build trust and long-term professional relationships — a capability just as valuable as any technical skill in strategy and analytics roles.</p></div>
+      <div class="why-card"><div class="icon">🌱</div><h4>Continuous Learner</h4><p>I consistently invest in new tools, frameworks, and domains. Currently deepening expertise in SQL, Power BI, and Business Analytics through structured certification programs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS DASHBOARD -->
+<section id="skills">
+  <div class="max-w">
+    <div class="section-label">Skills</div>
+    <h2>Skills Dashboard</h2>
+    <p class="section-sub">Grouped by domain — the toolkit I bring to every engagement.</p>
+    <div class="skills-grid reveal">
+      <div class="skill-cluster">
+        <h4><span class="dot" style="background:var(--accent)"></span>Strategy &amp; Intelligence</h4>
+        <div class="skill-list">
+          <span class="sk">Market Research</span><span class="sk">Industry Research</span><span class="sk">Market Intelligence</span>
+          <span class="sk">Competitive Benchmarking</span><span class="sk">Competitor Analysis</span><span class="sk">Strategic Analysis</span>
+          <span class="sk">Commercial Analysis</span><span class="sk">Market Assessment</span><span class="sk">Opportunity Analysis</span>
+          <span class="sk">Business Development</span><span class="sk">Strategic Planning</span>
+        </div>
+      </div>
+      <div class="skill-cluster">
+        <h4><span class="dot" style="background:var(--teal)"></span>Analytics &amp; Data</h4>
+        <div class="skill-list">
+          <span class="sk">Advanced Excel</span><span class="sk">SQL (Advanced)</span><span class="sk">Power BI</span>
+          <span class="sk">Dashboard Development</span><span class="sk">KPI Tracking</span><span class="sk">Data Visualization</span>
+          <span class="sk">Business Analytics</span><span class="sk">Statistical Analysis</span><span class="sk">Forecasting</span>
+          <span class="sk">Data Interpretation</span><span class="sk">Quantitative Analysis</span>
+        </div>
+      </div>
+      <div class="skill-cluster">
+        <h4><span class="dot" style="background:var(--gold)"></span>Business Operations</h4>
+        <div class="skill-list">
+          <span class="sk">Project Coordination</span><span class="sk">MIS Reporting</span><span class="sk">Vendor Coordination</span>
+          <span class="sk">Supply Chain Analysis</span><span class="sk">CRM Management</span><span class="sk">Process Optimization</span>
+          <span class="sk">Risk Assessment</span><span class="sk">Inventory Management</span><span class="sk">Report Writing</span>
+        </div>
+      </div>
+      <div class="skill-cluster">
+        <h4><span class="dot" style="background:var(--green)"></span>Leadership &amp; Communication</h4>
+        <div class="skill-list">
+          <span class="sk">Cross-functional Collaboration</span><span class="sk">Stakeholder Management</span>
+          <span class="sk">Presentation Development</span><span class="sk">Customer Segmentation</span>
+          <span class="sk">Consumer Behaviour</span><span class="sk">Relationship Building</span>
+          <span class="sk">Executive Communication</span><span class="sk">Problem Solving</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="max-w">
+    <div class="section-label">Tools</div>
+    <h2>Tools &amp; Technologies</h2>
+    <p class="section-sub">The software and platforms I work with across analytics, research, and project execution.</p>
+    <div class="tools-grid reveal">
+      <div class="tool-cluster">
+        <h4>📊 Analytics</h4>
+        <ul>
+          <li>Microsoft Excel (Advanced)</li>
+          <li>Power BI</li>
+          <li>SQL (Advanced)</li>
+          <li>Dashboard Reporting</li>
+          <li>Data Visualization</li>
+        </ul>
+      </div>
+      <div class="tool-cluster">
+        <h4>🔍 Research</h4>
+        <ul>
+          <li>Market Research Frameworks</li>
+          <li>Competitive Benchmarking</li>
+          <li>SWOT / PESTLE / Porter's 5F</li>
+          <li>Industry Intelligence</li>
+          <li>M&A Landscape Analysis</li>
+        </ul>
+      </div>
+      <div class="tool-cluster">
+        <h4>🗂 Productivity</h4>
+        <ul>
+          <li>Microsoft Office Suite</li>
+          <li>Google Workspace</li>
+          <li>PowerPoint</li>
+          <li>CRM Tools</li>
+          <li>ERP / Inventory Sheets</li>
+        </ul>
+      </div>
+      <div class="tool-cluster">
+        <h4>💻 Development</h4>
+        <ul>
+          <li>Git / GitHub</li>
+          <li>VS Code</li>
+          <li>IntelliJ IDEA</li>
+          <li>NetBeans</li>
+          <li>HTML / CSS (Basics)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="max-w">
+    <div class="section-label">Certifications</div>
+    <h2>Certifications &amp; Professional Development</h2>
+    <p class="section-sub">Structured learning programs aligned with target roles in analytics, strategy, and business intelligence.</p>
+    <div class="cert-grid reveal">
+      <div class="cert-card">
+        <h4>Business Analytics</h4>
+        <div class="cert-provider">CareerNinja</div>
+      </div>
+      <div class="cert-card">
+        <h4>Complete Data Analytics</h4>
+        <div class="cert-provider">CareerNinja</div>
+      </div>
+      <div class="cert-card">
+        <h4>Advanced SQL</h4>
+        <div class="cert-provider">LearnTube</div>
+      </div>
+      <div class="cert-card">
+        <h4>Power BI</h4>
+        <div class="cert-provider">LearnTube</div>
+      </div>
+      <div class="cert-card">
+        <h4>Advanced Excel</h4>
+        <div class="cert-provider">LearnTube</div>
+      </div>
+      <div class="cert-card">
+        <h4>Full Stack Web Development</h4>
+        <div class="cert-provider">AccioJob</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="max-w">
+    <div class="section-label">Projects</div>
+    <h2>Featured Projects</h2>
+    <p class="section-sub">Each project presented as a case study — context, contributions, and outcome.</p>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.3rem">Strategic Intelligence · Corporate</div>
+          <h3>Data Center Market &amp; Competitive Intelligence Analysis</h3>
+        </div>
+        <span class="project-org" style="background:rgba(37,99,235,0.07);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">Sterlite Technologies (STL)</span>
+      </div>
+      <div class="p-label">Context</div>
+      <p>STL's Strategy Department engaged in research to evaluate market entry opportunities in the data center ecosystem across India and the Middle East — a market experiencing rapid growth driven by cloud adoption, AI workloads, and digital infrastructure demand.</p>
+      <div class="p-label">Key Contributions</div>
+      <ul>
+        <li>Researched 50+ market participants across the data center value chain — operators, investors, infrastructure providers, and technology partners</li>
+        <li>Evaluated investment trends, market attractiveness, and emerging growth opportunities across cloud, colocation, and hyperscale segments</li>
+        <li>Benchmarked competitive strategies of AWS, Microsoft Azure, and Google Cloud across key growth dimensions</li>
+        <li>Assessed partnership structures and ecosystem relationships influencing market expansion</li>
+        <li>Investigated potential M&A opportunities and strategic collaborations relevant to STL's objectives</li>
+        <li>Synthesized findings into executive-ready reports for senior strategic decision-making</li>
+      </ul>
+      <div class="project-meta">
+        <div>
+          <div class="label">Skills Demonstrated</div>
+          <div class="tag-row"><span class="tag">Market Intelligence</span><span class="tag">Competitive Benchmarking</span><span class="tag">Commercial Analysis</span><span class="tag">Industry Research</span><span class="tag">Executive Reporting</span></div>
+        </div>
+        <div>
+          <div class="label">Impact</div>
+          <p>Delivered actionable insights supporting STL's strategic evaluations of industry opportunities, competitive dynamics, and potential growth directions in the data center market.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.3rem">Strategic Analysis · MBA Capstone</div>
+          <h3>Strategic Market &amp; Competitive Analysis — Bisleri International</h3>
+        </div>
+        <span class="project-org" style="background:rgba(8,145,178,0.07);color:var(--teal);border:1px solid rgba(8,145,178,0.2)">MBA Project</span>
+      </div>
+      <div class="p-label">Objective</div>
+      <p>To evaluate Bisleri's competitive position within India's packaged drinking water industry and identify growth opportunities through structured strategic analysis.</p>
+      <div class="p-label">Frameworks Applied</div>
+      <div class="tag-row" style="margin-bottom:0.5rem">
+        <span class="tag">SWOT Analysis</span><span class="tag">TOWS Matrix</span><span class="tag">Porter's Five Forces</span><span class="tag">PESTLE Analysis</span><span class="tag">Competitive Landscape Assessment</span>
+      </div>
+      <div class="p-label">Key Contributions</div>
+      <ul>
+        <li>Conducted comprehensive market research and commercial analysis of India's packaged drinking water industry</li>
+        <li>Analyzed industry trends, competitive landscape, and market risks to assess Bisleri's strategic position</li>
+        <li>Evaluated competitor strategies, market share dynamics, and business environment factors</li>
+        <li>Generated actionable insights and strategic recommendations through structured data analysis and market intelligence</li>
+        <li>Presented findings through analytical reports and business presentations</li>
+      </ul>
+      <div class="project-meta">
+        <div>
+          <div class="label">Skills Demonstrated</div>
+          <div class="tag-row"><span class="tag">Business Strategy</span><span class="tag">Market Research</span><span class="tag">Strategic Planning</span><span class="tag">Commercial Analysis</span><span class="tag">Presentation Development</span></div>
+        </div>
+        <div>
+          <div class="label">Outcome</div>
+          <p>Delivered a structured strategic analysis with actionable growth recommendations, demonstrating applied use of multiple strategy frameworks in a real business context.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach">
+  <div class="max-w">
+    <div class="section-label">Methodology</div>
+    <h2>My Approach to<br>Solving Business Problems</h2>
+    <p class="section-sub">A consulting-oriented framework I apply consistently — from market research to strategic recommendations.</p>
+    <div class="approach-steps reveal">
+      <div class="approach-step"><div class="step-num">01</div><div class="step-title">Understand</div><div class="step-desc">Identify the core business objective, stakeholders, and the metrics that matter.</div></div>
+      <div class="approach-step"><div class="step-num">02</div><div class="step-title">Analyze</div><div class="step-desc">Gather data, research the market, study competitors, and identify key trends.</div></div>
+      <div class="approach-step"><div class="step-num">03</div><div class="step-title">Evaluate</div><div class="step-desc">Assess opportunities, risks, trade-offs, and potential business impact.</div></div>
+      <div class="approach-step"><div class="step-num">04</div><div class="step-title">Recommend</div><div class="step-desc">Develop actionable, data-backed recommendations aligned with business goals.</div></div>
+      <div class="approach-step"><div class="step-num">05</div><div class="step-title">Execute</div><div class="step-desc">Track results, monitor KPIs, and refine decisions based on observed outcomes.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths">
+  <div class="max-w">
+    <div class="section-label">Strengths</div>
+    <h2>Key Strengths</h2>
+    <p class="section-sub">Not traits — demonstrated capabilities with real professional context behind each one.</p>
+    <table class="strength-table reveal">
+      <thead><tr><th>Strength</th><th>What It Means in Practice</th></tr></thead>
+      <tbody>
+        <tr><td>Strategic Research</td><td>Ability to study industries, markets, competitors, and emerging trends — and translate findings into business-relevant insights that support decisions</td></tr>
+        <tr><td>Business Analytics</td><td>Converting complex data and business information into actionable, decision-oriented insights using structured analytical approaches and tools</td></tr>
+        <tr><td>Commercial Acumen</td><td>Understanding revenue drivers, market opportunities, and business models — connecting strategy to commercial outcomes</td></tr>
+        <tr><td>Structured Problem Solving</td><td>Breaking complex, ambiguous business challenges into manageable components using logical frameworks and prioritization</td></tr>
+        <tr><td>Stakeholder Management</td><td>Working effectively across cross-functional teams and managing relationships with diverse internal and external stakeholders</td></tr>
+        <tr><td>Executive Communication</td><td>Presenting insights in a concise, decision-oriented manner suitable for senior leadership audiences</td></tr>
+        <tr><td>Relationship Building</td><td>Developing trust-based professional networks that create long-term collaborative and commercial value</td></tr>
+        <tr><td>Adaptability</td><td>Demonstrated ability to work across industries — automation, telecom infrastructure, FMCG strategy — and business functions with equal effectiveness</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- VALUES & COLLEAGUES -->
+<section id="values">
+  <div class="max-w">
+    <div class="section-label" style="color:rgba(255,255,255,0.32)"><span style="width:20px;height:1px;background:rgba(255,255,255,0.15);display:inline-block;flex-shrink:0"></span>Leadership &amp; Values</div>
+    <h2>Professional Values</h2>
+    <div class="values-grid reveal">
+      <div class="value-card"><div class="v-icon">🔎</div><h4>Curiosity</h4><p>I continuously seek to understand industries, markets, and business models beyond surface-level information.</p></div>
+      <div class="value-card"><div class="v-icon">🎯</div><h4>Ownership</h4><p>I take responsibility for outcomes and focus on delivering meaningful contributions rather than completing tasks.</p></div>
+      <div class="value-card"><div class="v-icon">🤝</div><h4>Collaboration</h4><p>The best solutions emerge when people with diverse perspectives work together toward a shared goal.</p></div>
+      <div class="value-card"><div class="v-icon">⚖️</div><h4>Integrity</h4><p>I value transparency, accountability, and ethical decision-making in every professional interaction.</p></div>
+      <div class="value-card"><div class="v-icon">📈</div><h4>Continuous Growth</h4><p>I actively invest in learning new tools, frameworks, and concepts to stay relevant in a rapidly evolving environment.</p></div>
+    </div>
+
+    <div style="margin-top:3.5rem">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.32);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem"><span style="width:20px;height:1px;background:rgba(255,255,255,0.15);display:inline-block;flex-shrink:0"></span>What Colleagues Appreciate About Working With Me</p>
+      <div class="appreciate-grid reveal">
+        <div class="appreciate-item">Dependable and accountable across all responsibilities</div>
+        <div class="appreciate-item">Strong analytical thinking and structured approach</div>
+        <div class="appreciate-item">Quick learner across new domains and tools</div>
+        <div class="appreciate-item">Effective communicator across all seniority levels</div>
+        <div class="appreciate-item">Collaborative mindset and team-first attitude</div>
+        <div class="appreciate-item">Brings structure to ambiguous and open-ended problems</div>
+        <div class="appreciate-item">Stays calm and focused under pressure</div>
+        <div class="appreciate-item">Relationship-oriented and genuinely helpful</div>
+        <div class="appreciate-item">Connects strategy with practical execution</div>
+        <div class="appreciate-item">Takes full ownership without needing to be pushed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT MAKES ME MEMORABLE -->
+<section id="memorable">
+  <div class="max-w">
+    <div class="section-label">Differentiator</div>
+    <h2>What Makes Me Different</h2>
+    <p class="section-sub">The one thing most portfolios don't show — why someone would remember working with you.</p>
+    <div class="memorable-inner reveal">
+      <h3>A Connector. A Collaborator. A Builder.</h3>
+      <p>Throughout my academic and professional journey, I have naturally taken on the role of a connector — bringing people together, sharing opportunities, exchanging knowledge, and helping teams achieve common goals.</p>
+      <p>I naturally build and maintain professional relationships. I often find myself being the person who introduces two professionals who should know each other, shares a resource that solves someone's problem, or creates a space where collaboration happens naturally.</p>
+      <p>I believe growth becomes more meaningful when it is shared. This mindset influences how I work with teams, build networks, and contribute to organizations — not just delivering outputs, but creating an environment where everyone around me also succeeds.</p>
+      <p style="color:rgba(255,255,255,0.85);font-weight:500">Strong relationships create strong opportunities. Knowledge becomes more valuable when shared. Sustainable success is built through collaboration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT FOCUS -->
+<section id="focus">
+  <div class="max-w">
+    <div class="section-label">Learning</div>
+    <h2>Current Focus Areas</h2>
+    <p class="section-sub">Where I'm directing my learning energy right now — aligned with where I want to go next.</p>
+    <div class="focus-grid reveal">
+      <span class="focus-tag">Business Analytics</span>
+      <span class="focus-tag">Corporate Strategy</span>
+      <span class="focus-tag">Market Intelligence</span>
+      <span class="focus-tag">Competitive Benchmarking</span>
+      <span class="focus-tag">SQL &amp; Data Querying</span>
+      <span class="focus-tag">Power BI Dashboards</span>
+      <span class="focus-tag">Growth Strategy</span>
+      <span class="focus-tag">Tech &amp; Digital Infrastructure Markets</span>
+      <span class="focus-tag">Strategic Frameworks</span>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section id="vision">
+  <div class="max-w">
+    <div class="section-label">Vision</div>
+    <h2>Career Vision</h2>
+    <p class="section-sub">A deliberate direction — not a destination by default.</p>
+    <div class="vision-inner reveal">
+      <h3>Building at the Intersection of Strategy, Analytics &amp; Growth</h3>
+      <p>I aspire to build a career at the intersection of Strategy, Analytics, and Business Growth. I am fascinated by how organizations use market intelligence, competitive insights, and data-driven decision-making to create sustainable competitive advantages.</p>
+      <p>My long-term objective is to contribute to strategic initiatives that influence business growth, market expansion, operational excellence, and investment decisions — at organizations that leverage strategy, technology, and data to solve complex business challenges and create measurable value.</p>
+      <p>Over time, I aim to evolve into a strategic business leader capable of influencing decisions that drive sustainable growth, operational excellence, and long-term value creation.</p>
+      <div class="vision-tags">
+        <span class="vision-tag">Market Expansion</span>
+        <span class="vision-tag">Growth Strategy</span>
+        <span class="vision-tag">Corporate Strategy</span>
+        <span class="vision-tag">Business Analytics</span>
+        <span class="vision-tag">Competitive Intelligence</span>
+        <span class="vision-tag">Strategic Planning</span>
+        <span class="vision-tag">Technology &amp; Infrastructure Markets</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEYOND WORK -->
+<section id="beyond">
+  <div class="max-w">
+    <div class="section-label">Beyond Work</div>
+    <h2>The Person Behind the Profile</h2>
+    <div class="beyond-card reveal">
+      <p>Outside academics and professional responsibilities, I enjoy exploring business trends, studying emerging industries, analyzing company growth stories, and connecting with people from diverse professional backgrounds.</p>
+      <p>I am naturally curious about how successful businesses are built, scaled, and sustained — what made a company pivot, how an industry was disrupted, what gave one player a lasting competitive edge over another.</p>
+      <p>I strongly believe in knowledge sharing and often exchange insights, resources, and opportunities with peers and professionals within my network. I believe strong relationships create strong opportunities — and that knowledge becomes more valuable when shared freely.</p>
+      <p style="font-weight:500;color:var(--ink)">I believe success is most meaningful when everyone grows together.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="max-w">
+    <div class="section-label" style="justify-content:center"><span style="display:none"></span>Let's Connect</div>
+    <h2>Let's Build Something<br>Meaningful</h2>
+    <p class="contact-sub">I'm always open to conversations around strategy, analytics, market research, consulting, growth, and technology markets.<br>Whether you're a recruiter, hiring manager, industry professional, or fellow learner — I'd love to connect.</p>
+    <div class="topics">
+      <span class="topic">Strategy</span>
+      <span class="topic">Business Analytics</span>
+      <span class="topic">Market Research</span>
+      <span class="topic">Consulting</span>
+      <span class="topic">Growth &amp; Expansion</span>
+      <span class="topic">Technology &amp; Infrastructure</span>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:ayanahmad135@gmail.com">✉ ayanahmad135@gmail.com</a>
+      <a href="https://www.linkedin.com/in/ayan-ahmad-aa4712236" target="_blank">🔗 LinkedIn</a>
+      <a href="https://wa.me/919717449873" target="_blank">💬 WhatsApp · +91-9717449873</a>
+      <a href="tel:+919717449873">📞 Call</a>
+    </div>
+    <p class="footer-note">Ayan Ahmad · Strategy &amp; Market Intelligence · Business Analytics · MBA Candidate · AMU · 2026</p>
+  </div>
+</section>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.07, rootMargin:'0px 0px -30px 0px' });
+
+// Stagger grid children
+document.querySelectorAll('.why-grid,.impact-grid,.values-grid,.appreciate-grid,.skills-grid,.cert-grid,.tools-grid,.books-grid').forEach(grid => {
+  Array.from(grid.children).forEach((child,i) => {
+    child.style.transitionDelay = `${i*0.055}s`;
+    child.classList.add('reveal');
+    io.observe(child);
+  });
+});
+
+reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
